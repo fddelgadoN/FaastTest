@@ -3,7 +3,7 @@
 
 name: Python application
 
-on: [push]:[pull]
+on: [push]
 
 permissions:
   contents: read
