@@ -1,6 +1,6 @@
 name: Pylint
 
-on: [push, pull]
+on: [push]:[pull]
 
 jobs:
   build:
