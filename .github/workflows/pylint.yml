@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas
         pip install pylint
-        pip install -e '.[dev]'
+        pip install '.[dev]'
     - name: Test with pytest
       run: |
         pytest life_expectancy --cov 
