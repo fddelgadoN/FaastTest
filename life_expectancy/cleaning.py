@@ -4,27 +4,38 @@ from typing import List
 
 import pandas as pd
 
-def clean_data(argv : List[str],
-file_name : str = 'eu_life_expectancy_raw.tsv', saved_file: str = "pt_life_expectancy.csv") -> None:
+# pylint: disable=import-error
+from constant import DATA_LOCATION, FILE_NAME, SAVED_FILE
+from utils import (change_dtypes, drop_backslash_from_column_name,
+                   split_comma_separated_column, unpivot_year_columns)
+# pylint: enable=import-error
+
+def save_data(data:pd.DataFrame, save_location:str) -> None:
+    """Save the data to file"""
+    data.to_csv(save_location, index=False)
+
+
+def load_data(file_name: str) -> pd.DataFrame:
+    """Load the data into a pd"""
+    return pd.read_csv(file_name, sep='\t')
+
+
+def clean_data(
+        argv : List[str],
+        data: pd.DataFrame) -> pd.DataFrame:
     """Clean dataframe and save it to file"""
 
     country = argv[0]
 
-    data_location = "life_expectancy/data/"
-    data = pd.read_csv(data_location+file_name,sep='\t')
-
     #Drop irrelevant info from first column
-    data = data.rename(columns={data.columns[0]: data.columns[0].partition('\\')[0]})
+    data = drop_backslash_from_column_name(data, data.columns[0])
 
-    #Unpivot data
-    years_cols = [x for x in data.columns if x.strip().isnumeric()]
-    data = pd.melt(data, id_vars=data.columns[0], value_vars=years_cols, \
-        value_name='value', var_name='year')
+    #Unpivot the year columns
+    data = unpivot_year_columns(data)
 
     #Split first column that is comma separated
-    data[data.columns[0].split(",")] = [x.split(',') for x in data.iloc[:, 0]]
-    data['region'] = data['geo']
-    data = data.drop([data.columns[0], 'geo'], axis=1)
+    data = split_comma_separated_column(data)
+    data = data.rename(columns={'geo': 'region'})
 
     #Reorder columns to fit to expected output...
     data=data[['unit','sex','age','region','year','value']]
@@ -34,14 +45,18 @@ file_name : str = 'eu_life_expectancy_raw.tsv', saved_file: str = "pt_life_expec
     data = data.drop(data[data['value'] == ''].index)
 
     #Convert needed dtypes
-    data['year'] = data.year.astype('int64')
-    data['value'] = data.value.astype('float')
+    data = change_dtypes(data,
+    {
+        'year' : 'int64',
+        'value' : 'float'
+    })
 
-    #Filter to only pt region
-    data = data.loc[data.region == country.upper()]
+    #Filter to only received region
+    data = data.loc[data.region.str.upper() == country.upper()]
 
-    #Save to file
-    data.to_csv(data_location+saved_file, index=False)
+    return data
 
 if __name__ == "__main__": # pragma: no cover
-    clean_data(argv = sys.argv[1:], file_name = "eu_life_expectancy_raw.tsv")
+    dataframe = load_data(DATA_LOCATION+FILE_NAME)
+    dataframe = clean_data(argv = sys.argv[1:], data=dataframe)
+    save_data(dataframe, DATA_LOCATION+SAVED_FILE)
