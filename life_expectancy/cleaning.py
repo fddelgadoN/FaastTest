@@ -34,7 +34,7 @@ def clean_data(
     data = unpivot_year_columns(data)
 
     #Split first column that is comma separated
-    data = split_comma_separated_column(data)
+    data = split_comma_separated_column(data, 0)
     data = data.rename(columns={'geo': 'region'})
 
     #Reorder columns to fit to expected output...
