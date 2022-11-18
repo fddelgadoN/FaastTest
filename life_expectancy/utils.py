@@ -19,7 +19,7 @@ def unpivot_year_columns(data: pd.DataFrame) -> pd.DataFrame:
         value_name='value', var_name='year')
     return data
 
-def drop_backslash_from_column_name(data:pd.Dataframe, column:str) -> pd.DataFrame:
+def drop_backslash_from_column_name(data:pd.DataFrame, column:str) -> pd.DataFrame:
     """Remove starting from the backslash"""
     return data.rename(columns={column: column.partition('\\')[0]})
     
