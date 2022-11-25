@@ -24,7 +24,8 @@ def clean_data(
         argv : List[str],
         data: pd.DataFrame) -> pd.DataFrame:
     """Clean dataframe and save it to file"""
-
+    assert data is not None, "Error extracting data is null"
+    
     country = argv[0]
 
     #Drop irrelevant info from first column
