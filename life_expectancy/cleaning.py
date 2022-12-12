@@ -5,8 +5,8 @@ from typing import List
 import pandas as pd
 
 # pylint: disable=import-error
-from constant import DATA_LOCATION, FILE_NAME, SAVED_FILE
-from utils import (change_dtypes, drop_backslash_from_column_name,
+from life_expectancy.constant import DATA_LOCATION, FILE_NAME, SAVED_FILE
+from life_expectancy.utils import (change_dtypes, drop_backslash_from_column_name,
                    split_comma_separated_column, unpivot_year_columns)
 # pylint: enable=import-error
 
