@@ -1,7 +1,7 @@
 """Tests for the cleaning module"""
 import pandas as pd
 
-from cleaning import clean_data, load_data, save_data
+from ..cleaning import clean_data, load_data, save_data
 from . import OUTPUT_DIR
 
 
