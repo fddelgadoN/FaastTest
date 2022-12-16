@@ -4,11 +4,23 @@ from typing import List
 
 import pandas as pd
 
-# pylint: disable=import-error
-from utils import (change_dtypes, drop_backslash_from_column_name,
-                   split_comma_separated_column, unpivot_year_columns)
-from file_manipulation import save_data, load_data
-# pylint: enable=import-error
+from .loaders import load_data, save_data
+
+def _split_comma_separated_column(data: pd.DataFrame, column:int) -> pd.DataFrame:
+    data[data.columns[column].split(",")] = [x.split(',') for x in data.iloc[:, column]]
+    return data
+
+def _unpivot_year_columns(data: pd.DataFrame) -> pd.DataFrame:
+    years_cols = [x for x in data.columns if x.strip().isnumeric()]
+    data = pd.melt(data, id_vars=data.columns[0], value_vars=years_cols, \
+        value_name='value', var_name='year')
+    return data
+
+def _drop_backslash_from_column_name(data:pd.DataFrame, column:str) -> pd.DataFrame:
+    return data.rename(columns={column: column.partition('\\')[0]})
+
+def _filter_dataframe(data:pd.DataFrame, country:str) -> pd.DataFrame:
+    return data.loc[data.region.str.upper() == country.upper()]
 
 def clean_data(
         argv : List[str],
@@ -16,16 +28,14 @@ def clean_data(
     """Clean dataframe and save it to file"""
     assert data is not None, "Error extracting data is null"
 
-    country = argv[0]
-
     #Drop irrelevant info from first column
-    data = drop_backslash_from_column_name(data, data.columns[0])
+    data = _drop_backslash_from_column_name(data, data.columns[0])
 
     #Unpivot the year columns
-    data = unpivot_year_columns(data)
+    data = _unpivot_year_columns(data)
 
     #Split first column that is comma separated
-    data = split_comma_separated_column(data, 0)
+    data = _split_comma_separated_column(data, 0)
     data = data.rename(columns={'geo': 'region'})
 
     #Reorder columns to fit to expected output...
@@ -36,14 +46,15 @@ def clean_data(
     data = data.drop(data[data['value'] == ''].index)
 
     #Convert needed dtypes
-    data = change_dtypes(data,
-    {
+    data = data.astype({
         'year' : 'int64',
         'value' : 'float'
     })
 
     #Filter to only received region
-    data = data.loc[data.region.str.upper() == country.upper()]
+    if len(argv)>0:
+        country = argv[0]
+        data = _filter_dataframe(data, country)
 
     return data
 
