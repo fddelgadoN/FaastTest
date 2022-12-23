@@ -5,9 +5,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 description = "First assignment of the FAAST Advance Foundations"
 authors = [
-    {name = "Fernando Cordeiro<fernando@daredata.engineering>"}
+    {name = "Francisco Delgado<francisco.delgado@nos.pt>"}
 ]
-dependencies = ["pandas"]
+dependencies = ["pandas", "pylint", ".[dev]"]
 
 [project.optional-dependencies]
 dev = ["pytest", "pylint", "pytest-cov"]
