@@ -7,7 +7,7 @@ description = "First assignment of the FAAST Advance Foundations"
 authors = [
     {name = "Francisco Delgado<francisco.delgado@nos.pt>"}
 ]
-dependencies = ["pandas", "pylint", ".[dev]"]
+dependencies = ["pandas"]
 
 [project.optional-dependencies]
 dev = ["pytest", "pylint", "pytest-cov"]
