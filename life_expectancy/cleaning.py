@@ -4,7 +4,7 @@ from typing import List
 
 import pandas as pd
 
-from .loaders import load_data, save_data
+from life_expectancy.data_access import load_data, save_data
 
 def _split_comma_separated_column(data: pd.DataFrame, column:int) -> pd.DataFrame:
     data[data.columns[column].split(",")] = [x.split(',') for x in data.iloc[:, column]]
@@ -25,7 +25,22 @@ def _filter_dataframe(data:pd.DataFrame, country:str) -> pd.DataFrame:
 def clean_data(
         argv : List[str],
         data: pd.DataFrame) -> pd.DataFrame:
-    """Clean dataframe and save it to file"""
+    """Clean dataframe and save it to file.
+        Firstly removing the backslash from columns names.
+        Unpivotting the year columns to be in a single column
+        Splitting the comma separated columns
+        Renaming columns to expected form and reordering the columns
+        Removing nonsense values from value column
+        Changing the dtypes
+        And if needed filtering out to a certain country
+    Args:
+        argv (List[str]): List of country abbreviations to filter by
+        data (pd.DataFrame): Unprocessed data read from file contain info about the countries
+
+    Returns:
+        pd.DataFrame: Dataframe processed and filtered by the required country (if needed)
+    """
+
     assert data is not None, "Error extracting data is null"
 
     #Drop irrelevant info from first column
