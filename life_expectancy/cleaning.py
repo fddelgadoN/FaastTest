@@ -68,6 +68,11 @@ def clean_data(
     return data
 
 def main() -> pd.DataFrame:
+    """Main function that calls all 3 functions
+
+    Returns:
+        pd.DataFrame: Cleaned dataframe
+    """
     dataframe = load_data()
     dataframe = clean_data(argv = sys.argv[1:], data=dataframe)
     save_data(dataframe)
