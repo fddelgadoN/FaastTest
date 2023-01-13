@@ -67,7 +67,16 @@ def clean_data(
 
     return data
 
-if __name__ == "__main__": # pragma: no cover
+def main() -> pd.DataFrame:
+    """Main function that calls all 3 functions
+
+    Returns:
+        pd.DataFrame: Cleaned dataframe
+    """
     dataframe = load_data()
     dataframe = clean_data(argv = sys.argv[1:], data=dataframe)
     save_data(dataframe)
+    return dataframe
+
+if __name__ == "__main__": # pragma: no cover
+    main()
