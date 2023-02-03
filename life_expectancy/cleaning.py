@@ -3,7 +3,7 @@ from abc import ABC
 
 import pandas as pd
 from life_expectancy.data_access import Loader, CSVLoader, JSONLoader
-from .country import Country
+from life_expectancy.country import Country
 
 class Cleaner(ABC):
     """Cleaner object for various types of files"""
@@ -30,6 +30,17 @@ class Cleaner(ABC):
 
     def _filter_dataframe(self, data:pd.DataFrame, country:str) -> pd.DataFrame:
         return data.loc[data.region.str.upper() == country.upper()]
+
+    def check_country_exists(self, country: str) -> bool:
+        """Test if the country receives is possible
+        Args:
+            country (Country): Country received
+        Returns:
+            bool: True or false based on if it exists
+        """
+        if country.upper() in Country.__members__:
+            return True
+        return False
 
 class CSVCleaner(Cleaner):
     """Reads data from csv and cleans it"""

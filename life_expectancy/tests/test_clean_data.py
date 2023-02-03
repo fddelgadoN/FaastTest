@@ -7,6 +7,7 @@ import pytest
 import json
 from life_expectancy.main import main
 from life_expectancy.file_type import FileExtension
+from life_expectancy.cleaning import Cleaner
 
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected.csv"
 
@@ -44,3 +45,12 @@ def test_main_json(monkeypatch : pytest.MonkeyPatch, data_cleaned_json: pd.DataF
     data = main(FileExtension.JSON).reset_index(drop=True)
     assert pd.DataFrame.equals(data, data_cleaned_json)
     mock_print.assert_called()
+
+
+def test_check_country():
+    cleaner = Cleaner(EU_FILE_NAME)
+    country = 'WRONG'
+    assert not cleaner.check_country_exists(country)
+    country = 'PT'
+    assert cleaner.check_country_exists(country)
+    

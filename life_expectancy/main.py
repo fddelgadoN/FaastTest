@@ -6,8 +6,8 @@ import pandas as pd
 from life_expectancy.cleaning import JSONCleaner, CSVCleaner
 from life_expectancy.data_access import save_data
 
-from .country import Country
-from .file_type import FileExtension
+from life_expectancy.country import Country
+from life_expectancy.file_type import FileExtension
 
 
 def main(file_type: FileExtension = FileExtension.CSV) -> pd.DataFrame:
@@ -17,16 +17,18 @@ def main(file_type: FileExtension = FileExtension.CSV) -> pd.DataFrame:
         pd.DataFrame: Cleaned dataframe
     """
 
-    country = sys.argv[-1]
-    if country.upper() in Country.__members__:
-        country = Country[country.upper()].value
-    else:
-        country = Country.PT.value
-
     if file_type == FileExtension.CSV:
         cleaner = CSVCleaner()
     elif file_type == FileExtension.JSON:
         cleaner = JSONCleaner()
+
+    country = sys.argv[-1]
+    if cleaner.check_country_exists(country):
+        country = Country[country.upper()].value
+    else:
+        country = Country.PT.value
+
+
     dataframe = cleaner.load_data()
     dataframe = cleaner.clean_data(country = country, data=dataframe)
     save_data(dataframe)
