@@ -4,7 +4,6 @@ from unittest.mock import Mock
 import pandas as pd
 import pytest
 
-from life_expectancy import data_access
 from life_expectancy.cleaning import main
 
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected.csv"

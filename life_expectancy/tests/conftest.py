@@ -27,7 +27,7 @@ def pt_life_expectancy_expected() -> pd.DataFrame:
 
 
 @pytest.fixture(scope="session")
-def data_cleaned():
+def data_cleaned() -> pd.DataFrame:
     """Fixture that loads cleans and saves the data for the tests
 
     Returns:
@@ -37,5 +37,9 @@ def data_cleaned():
 
 
 @pytest.fixture(scope="session")
-def eu_csv_file():
+def eu_csv_file() -> pd.DataFrame:
+    """Read EU csv file
+    Returns:
+        pd. DataFrame: EU csv
+    """
     return pd.read_csv(DATA_LOCATION, sep="\t")
