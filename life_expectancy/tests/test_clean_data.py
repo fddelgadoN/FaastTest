@@ -21,7 +21,7 @@ def test_main(monkeypatch : pytest.MonkeyPatch, data_cleaned: pd.DataFrame) -> N
     mock_print = Mock(return_value='MonkeyPatch save')
     monkeypatch.setattr( "life_expectancy.cleaning.save_data", lambda _ : print(mock_print()))
     monkeypatch.setattr( "life_expectancy.cleaning.load_data", lambda  :
-                data_access.load_data(EU_FILE_NAME, ","))
+               pd.read_csv(EU_FILE_NAME))
     data = main().reset_index(drop=True)
     assert pd.DataFrame.equals(data, data_cleaned)
     mock_print.assert_called()
