@@ -4,7 +4,7 @@ from abc import ABC
 import json
 import pandas as pd
 
-from .constant import SAVED_FILE, JSON_FILE_NAME, CSV_FILE_NAME
+from life_expectancy.constant import SAVED_FILE, JSON_FILE_NAME, CSV_FILE_NAME
 
 
 class Loader(ABC):
