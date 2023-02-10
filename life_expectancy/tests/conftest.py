@@ -28,7 +28,7 @@ def pt_life_expectancy_expected() -> pd.DataFrame:
 
 @pytest.fixture(scope="session")
 def data_cleaned() -> pd.DataFrame:
-    """Fixture that loads cleans and saves the data for the tests
+    """Fixture that reads the csv cleaned
 
     Returns:
         pd.DataFrame: Cleaned data
