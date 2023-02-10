@@ -41,7 +41,7 @@ def test_main_json(monkeypatch : pytest.MonkeyPatch, data_cleaned_json: pd.DataF
     monkeypatch.setattr("life_expectancy.main.save_data", lambda _ : print(mock_print()))
     monkeypatch.setattr("life_expectancy.main.JSONCleaner.load_data", lambda _:
                 pd.read_csv(EU_FILE_NAME_JSON, ","))
-    data = main(FileExtension.JSON).reset_index(drop=True)
+    data = main(file_type = FileExtension.JSON).reset_index(drop=True)
     assert pd.DataFrame.equals(data, data_cleaned_json)
     mock_print.assert_called()
 

@@ -10,7 +10,7 @@ from life_expectancy.country import Country
 from life_expectancy.file_type import FileExtension
 
 
-def main(file_type: FileExtension = FileExtension.CSV) -> pd.DataFrame:
+def main(filename: str = None, file_type: FileExtension = FileExtension.CSV) -> pd.DataFrame:
     """Main function that calls all 3 functions
 
     Returns:
@@ -18,9 +18,9 @@ def main(file_type: FileExtension = FileExtension.CSV) -> pd.DataFrame:
     """
 
     if file_type == FileExtension.CSV:
-        cleaner = CSVCleaner()
+        cleaner = CSVCleaner(filename)
     elif file_type == FileExtension.JSON:
-        cleaner = JSONCleaner()
+        cleaner = JSONCleaner(filename)
 
     country = sys.argv[-1]
     if cleaner.check_country_exists(country):
