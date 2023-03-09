@@ -28,7 +28,7 @@ class Cleaner(ABC):
         """
         return self.loader.load_data()
 
-    def _filter_dataframe(self, data:pd.DataFrame, country:str) -> pd.DataFrame:
+    def _filter_dataframe(self, data:pd.DataFrame, country:Country) -> pd.DataFrame:
         return data.loc[data.region.str.upper() == country.upper()]
 
     def check_country_exists(self, country: str) -> bool:
