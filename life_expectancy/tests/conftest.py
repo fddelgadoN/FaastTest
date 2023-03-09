@@ -1,6 +1,7 @@
 """Pytest configuration file"""
 import pandas as pd
 import pytest
+import json
 
 from . import FIXTURES_DIR, OUTPUT_DIR
 
@@ -56,3 +57,15 @@ def eu_csv_file() -> pd.DataFrame:
         pd.DataFrame: Loaded data
     """
     return pd.read_csv(DATA_LOCATION_CSV, sep="\t")
+
+
+@pytest.fixture(scope="session")
+def eu_json_file() -> pd.DataFrame:
+    """Loads CSV file with all info
+
+    Returns:
+        pd.DataFrame: Loaded data
+    """
+    with open(DATA_LOCATION_JSON, 'r', encoding='utf-8') as file:
+        data = json.load(file)
+    return pd.DataFrame(data)
