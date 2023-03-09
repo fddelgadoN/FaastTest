@@ -5,6 +5,9 @@ import pytest
 from . import FIXTURES_DIR, OUTPUT_DIR
 
 
+DATA_LOCATION = OUTPUT_DIR/"eu_life_expectancy_raw.tsv"
+PT_FILE_NAME = OUTPUT_DIR/"pt_life_expectancy_expected.csv"
+
 @pytest.fixture(autouse=True)
 def run_before_and_after_tests() -> None:
     """Fixture to execute commands before and after a test is run"""
@@ -21,3 +24,22 @@ def run_before_and_after_tests() -> None:
 def pt_life_expectancy_expected() -> pd.DataFrame:
     """Fixture to load the expected output of the cleaning script"""
     return pd.read_csv(FIXTURES_DIR / "pt_life_expectancy_expected.csv")
+
+
+@pytest.fixture(scope="session")
+def data_cleaned() -> pd.DataFrame:
+    """Fixture that reads the csv cleaned
+
+    Returns:
+        pd.DataFrame: Cleaned data
+    """
+    return pd.read_csv(PT_FILE_NAME)
+
+
+@pytest.fixture(scope="session")
+def eu_csv_file() -> pd.DataFrame:
+    """Read EU csv file
+    Returns:
+        pd. DataFrame: EU csv
+    """
+    return pd.read_csv(DATA_LOCATION, sep="\t")

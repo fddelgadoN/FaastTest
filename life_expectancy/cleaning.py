@@ -63,6 +63,7 @@ def clean_data(
     #Filter to only received region
     if len(argv)>0:
         country = argv[0]
+        country = country if country in data.region else 'pt'
         data = _filter_dataframe(data, country)
 
     return data
