@@ -36,7 +36,8 @@ def test_save_data(monkeypatch: pytest.MonkeyPatch) -> None:
         eu_csv_file (Fixture): Fixture that loads the tsv file
     """
     mock_print = Mock(return_value='MonkeyPatch save')
-    monkeypatch.setattr("life_expectancy.data_access.save_data", lambda _ : print(mock_print()))
+    monkeypatch.setattr("life_expectancy.tests.test_data_access.save_data",
+                        lambda _ : print(mock_print()))
     dummy_data = pd.DataFrame()
     save_data(dummy_data)
     mock_print.assert_called()
