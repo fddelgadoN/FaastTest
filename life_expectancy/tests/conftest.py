@@ -6,8 +6,8 @@ from . import FIXTURES_DIR, OUTPUT_DIR
 
 DATA_LOCATION_CSV = OUTPUT_DIR/"eu_life_expectancy_raw.tsv"
 DATA_LOCATION_JSON = OUTPUT_DIR/"eurostat_life_expect.json"
+
 PT_FILE_NAME = OUTPUT_DIR/"pt_life_expectancy_expected.csv"
-EU_FILE_NAME = OUTPUT_DIR/"eu_life_expectancy_expected.csv"
 
 PT_FILE_NAME_JSON = OUTPUT_DIR/"pt_life_expectancy_expected_json.csv"
 
