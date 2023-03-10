@@ -34,7 +34,8 @@ class BaseETL(ABC):
             pd.DataFrame: dataframe with loaded data
         """
 
-    def _filter_dataframe(self, data:pd.DataFrame, country:Country) -> pd.DataFrame:
+    @staticmethod
+    def _filter_dataframe(data:pd.DataFrame, country:Country) -> pd.DataFrame:
         return data.loc[data.region.str.upper() == country.upper()]
 
     @staticmethod
