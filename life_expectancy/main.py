@@ -14,7 +14,7 @@ def main(filename: str = None, etl_type: ETLSelection = ETLSelection.CSV,
         pd.DataFrame: Cleaned dataframe
     """
 
-    etl = ETLSelection.__dict__[etl_type.name].value(filename)
+    etl = ETLSelection.from_path(etl_type.name)(filename)
 
 
     if etl.check_country_exists(country):
