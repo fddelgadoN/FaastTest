@@ -1,16 +1,13 @@
 """Pytest configuration file"""
+import json
+
 import pandas as pd
 import pytest
-import json
+from life_expectancy.tests.path_tests import FilePathsTest
 
 from . import FIXTURES_DIR, OUTPUT_DIR
 
-DATA_LOCATION_CSV = OUTPUT_DIR/"eu_life_expectancy_raw.tsv"
-DATA_LOCATION_JSON = OUTPUT_DIR/"eurostat_life_expect.json"
-
-PT_FILE_NAME = OUTPUT_DIR/"pt_life_expectancy_expected.csv"
-
-PT_FILE_NAME_JSON = OUTPUT_DIR/"pt_life_expectancy_expected_json.csv"
+PATHS = FilePathsTest(OUTPUT_DIR)
 
 @pytest.fixture(autouse=True)
 def run_before_and_after_tests() -> None:
@@ -37,7 +34,7 @@ def data_cleaned_csv() -> pd.DataFrame:
     Returns:
         pd.DataFrame: Cleaned data
     """
-    return pd.read_csv(PT_FILE_NAME)
+    return pd.read_csv(PATHS.pt_file_name_csv)
 
 
 @pytest.fixture(scope="session")
@@ -47,7 +44,7 @@ def data_cleaned_json() -> pd.DataFrame:
     Returns:
         pd.DataFrame: Cleaned data
     """
-    return pd.read_csv(PT_FILE_NAME_JSON)
+    return pd.read_csv(PATHS.pt_file_name_json)
 
 @pytest.fixture(scope="session")
 def eu_csv_file() -> pd.DataFrame:
@@ -56,7 +53,7 @@ def eu_csv_file() -> pd.DataFrame:
     Returns:
         pd.DataFrame: Loaded data
     """
-    return pd.read_csv(DATA_LOCATION_CSV, sep="\t")
+    return pd.read_csv(PATHS.data_location_csv, sep="\t")
 
 
 @pytest.fixture(scope="session")
@@ -66,6 +63,6 @@ def eu_json_file() -> pd.DataFrame:
     Returns:
         pd.DataFrame: Loaded data
     """
-    with open(DATA_LOCATION_JSON, 'r', encoding='utf-8') as file:
+    with open(PATHS.data_location_json, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return pd.DataFrame(data)

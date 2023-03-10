@@ -1,8 +1,8 @@
-"""Enum file"""
+"""Information on Countries' used in the data in 'life_expectancy/data'"""
 from enum import Enum
 
 class Country(str, Enum):
-    """Enum class to remove possible errors from input"""
+    """Filters for the available countries"""
     AT = 'AT'
     BE = 'BE'
     BG = 'BG'

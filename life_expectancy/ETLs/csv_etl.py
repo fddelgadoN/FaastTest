@@ -1,52 +1,27 @@
-"""Cleaning file with objects to clean various types of file extensions"""
-from abc import ABC
-
+"""The csv etl module"""
 import pandas as pd
-from life_expectancy.data_access import Loader, CSVLoader, JSONLoader
+
+from life_expectancy.constant import FILEPATHS
 from life_expectancy.country import Country
+from life_expectancy.ETLs.base_etl import BaseETL
 
-class Cleaner(ABC):
-    """Cleaner object for various types of files"""
-    def __init__(self, filename : str = None) -> None:
-        self.loader = Loader(filename)
 
-    def clean_data(self, country : Country, data: pd.DataFrame) -> pd.DataFrame:
-        """Cleans data
-        Args:
-            country (Country): name of country to filter data
-            data (pd.DataFrame): data object
-
-        Returns:
-            pd.DataFrame: cleaned final data
-        """
+class CsvETL(BaseETL):
+    """Reads data from csv and cleans it"""
+    def __init__(self, filename : str=None, sep: str="\t") -> None:
+        if filename is None:
+            path = FILEPATHS()
+            filename = path.csv_file_name
+        self.filename = filename
+        self.sep = sep
 
     def load_data(self) -> pd.DataFrame:
-        """Loads the data from file
+        """Loads the csv data
 
-        Returns:
-            pd.DataFrame: dataframe with loaded data
+        :return: A pandas dataframe with the cleaned data
+        :rtype: pd.DataFrame
         """
-        return self.loader.load_data()
-
-    def _filter_dataframe(self, data:pd.DataFrame, country:Country) -> pd.DataFrame:
-        return data.loc[data.region.str.upper() == country.upper()]
-
-    def check_country_exists(self, country: str) -> bool:
-        """Test if the country receives is possible
-        Args:
-            country (Country): Country received
-        Returns:
-            bool: True or false based on if it exists
-        """
-        if country.upper() in Country.__members__:
-            return True
-        return False
-
-class CSVCleaner(Cleaner):
-    """Reads data from csv and cleans it"""
-    def __init__(self, filename : str=None) -> None:
-        super().__init__(filename)
-        self.loader = CSVLoader(filename)
+        return pd.read_csv(self.filename, sep=self.sep)
 
     def _unpivot_year_columns(self, data: pd.DataFrame) -> pd.DataFrame:
         years_cols = [x for x in data.columns if x.strip().isnumeric()]
@@ -98,22 +73,6 @@ class CSVCleaner(Cleaner):
         })
 
         #Filter to only received region
-        if country is not None:
-            data = self._filter_dataframe(data, country)
-
-        return data
-
-class JSONCleaner(Cleaner):
-    """Reads data from json and cleans it"""
-
-    def __init__(self, filename : str=None) -> None:
-        super().__init__(filename)
-        self.loader = JSONLoader(filename)
-
-    def clean_data(self, country: Country, data: pd.DataFrame) -> pd.DataFrame:
-        data = data.rename(columns={'country': 'region', 'life_expectancy': 'value'})
-        data = data.drop(columns=['flag', 'flag_detail'])
-
         if country is not None:
             data = self._filter_dataframe(data, country)
 
