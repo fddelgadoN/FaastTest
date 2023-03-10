@@ -1,5 +1,5 @@
 """Test for the check_country_exists function in BaseEtl"""
-from life_expectancy.ETLs.json_etl import JsonETL
+from life_expectancy.etls.json_etl import JsonETL
 
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected.csv"
 

@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 import pandas as pd
-from life_expectancy.ETLs.json_etl import JsonETL
-from life_expectancy.ETLs.csv_etl import CsvETL
+from life_expectancy.etls.json_etl import JsonETL
+from life_expectancy.etls.csv_etl import CsvETL
 
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected.csv"
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected_json.csv"

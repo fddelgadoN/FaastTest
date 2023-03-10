@@ -3,7 +3,7 @@ import pandas as pd
 
 from life_expectancy.constant import FILEPATHS
 from life_expectancy.country import Country
-from life_expectancy.ETLs.base_etl import BaseETL
+from life_expectancy.etls.base_etl import BaseETL
 
 
 class CsvETL(BaseETL):
