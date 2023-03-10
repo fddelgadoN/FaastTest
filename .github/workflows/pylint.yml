@@ -33,4 +33,3 @@ jobs:
         pylint life_expectancy.json_etl
         pylint life_expectancy.csv_etl
     
-    
