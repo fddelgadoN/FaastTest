@@ -29,7 +29,7 @@ jobs:
         pytest life_expectancy --cov 
     - name: Analysing the code with pylint
       run: |
-        pylint life_expectancy.base_etl
-        pylint life_expectancy.json_etl
-        pylint life_expectancy.csv_etl
+        pylint life_expectancy.etls.base
+        pylint life_expectancy.etls.json
+        pylint life_expectancy.etls.csv
     
