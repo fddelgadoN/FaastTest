@@ -29,7 +29,8 @@ class CsvETL(BaseETL):
     def _process_columns(self, column: str, col_index: int) -> None:
         self.data = self.data.rename(columns={column: column.partition('\\')[0]})
         self._unpivot_year_columns()
-        self.data[self.data.columns[col_index].split(",")] = [x.split(',') for x in self.data.iloc[:, col_index]]
+        self.data[self.data.columns[col_index].split(",")] = [x.split(',')
+                                                        for x in self.data.iloc[:, col_index]]
         self.data = self.data.rename(columns={'geo': 'region'})
 
     def clean_data(self, country: Country) -> None:

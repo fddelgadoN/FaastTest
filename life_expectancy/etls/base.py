@@ -18,7 +18,7 @@ class BaseETL(ABC):
         self.data = pd.DataFrame()
 
     @abstractmethod
-    def clean_data(self, country : Country, data: pd.DataFrame) -> pd.DataFrame:
+    def clean_data(self, country : Country) -> pd.DataFrame:
         """Cleans data
         Args:
             country (Country): name of country to filter data
@@ -27,7 +27,6 @@ class BaseETL(ABC):
         Returns:
             pd.DataFrame: cleaned final data
         """
-        ...
 
     @abstractmethod
     def load_data(self) -> pd.DataFrame:
@@ -36,7 +35,6 @@ class BaseETL(ABC):
         Returns:
             pd.DataFrame: dataframe with loaded data
         """
-        ...
 
     def _filter_dataframe(self, country:Country) -> pd.DataFrame:
         self.data = self.data.loc[self.data.region.str.upper() == country.upper()]
