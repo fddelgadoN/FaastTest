@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 import pandas as pd
-from life_expectancy.etls.json_etl import JsonETL
-from life_expectancy.etls.csv_etl import CsvETL
+from life_expectancy.etls.json import JsonETL
+from life_expectancy.etls.csv import CsvETL
 
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected.csv"
 EU_FILE_NAME = "life_expectancy/data/eu_life_expectancy_expected_json.csv"
@@ -16,9 +16,9 @@ def test_load_data_csv(eu_csv_file : pd.DataFrame) -> None:
     Args:
         eu_csv_file (Fixture): Fixture that loads the tsv file
     """
-    json_etl = CsvETL(None)
-    data = json_etl.load_data()
-    assert pd.DataFrame.equals(eu_csv_file, data)
+    csv_etl = CsvETL(None)
+    csv_etl.load_data()
+    assert pd.DataFrame.equals(eu_csv_file, csv_etl.data)
 
 def test_load_data_json(eu_json_file : pd.DataFrame) -> None:
     """Test the load data function
@@ -27,8 +27,8 @@ def test_load_data_json(eu_json_file : pd.DataFrame) -> None:
         eu_json_file (Fixture): Fixture that loads the json file
     """
     json_etl = JsonETL(None)
-    data = json_etl.load_data()
-    assert pd.DataFrame.equals(eu_json_file, data)
+    json_etl.load_data()
+    assert pd.DataFrame.equals(eu_json_file, json_etl.data)
 
 def test_save_data(monkeypatch: pytest.MonkeyPatch) -> None:
     """Test the save data function

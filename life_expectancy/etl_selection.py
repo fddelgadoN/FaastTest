@@ -1,8 +1,8 @@
 """Enum file for file extension to be read"""
 from enum import Enum
-from life_expectancy.etls.json_etl import JsonETL
-from life_expectancy.etls.csv_etl import CsvETL
-from life_expectancy.etls.base_etl import BaseETL
+from life_expectancy.etls.json import JsonETL
+from life_expectancy.etls.csv import CsvETL
+from life_expectancy.etls.base import BaseETL
 
 class ETLSelection(Enum):
     """Enum class to filter file type"""

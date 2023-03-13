@@ -16,15 +16,12 @@ def main(filename: str = None, etl_type: ETLSelection = ETLSelection.CSV,
 
     etl = ETLSelection.from_path(etl_type.name)(filename)
 
+    country = Country[country.upper()].value
 
-    if etl.check_country_exists(country):
-        country = Country[country.upper()].value
-
-
-    dataframe = etl.load_data()
-    dataframe = etl.clean_data(country = country, data=dataframe)
-    etl.save_data(dataframe)
-    return dataframe
+    etl.load_data()
+    etl.clean_data(country = country)
+    etl.save_data()
+    return etl.data
 
 if __name__ == "__main__": # pragma: no cover
     main(country = sys.argv[-1])
